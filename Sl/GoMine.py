@@ -27,7 +27,7 @@ else:
 
 #锁定雷区坐标
 left += 15
-top += 101
+top += 100
 right -= 15
 bottom -= 42
 
