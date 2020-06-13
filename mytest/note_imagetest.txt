@@ -1,0 +1,15 @@
+pyssim test-images/test1-1.png "test-images/*"
+
+cd D:\data\dev\GoMine\mytest
+
+pyssim all/0_0.bmp "bmp/*"
+
+pyssim all/0_5.bmp "bmp/*"
+
+pyssim all/1_7.bmp "bmp/*"
+
+pyssim all/7_2.bmp "bmp/*"
+
+pyssim all/2_7.bmp "bmp/*"
+
+pyssim all/8_8.bmp "bmp/*"
