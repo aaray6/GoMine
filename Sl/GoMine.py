@@ -1,9 +1,11 @@
 import random
-import win32api,win32gui
+#import win32api,win32gui
+import win32gui
 import sys
 import time
-import win32con
+#import win32con
 from PIL import ImageGrab
+import pyautogui
 
 #扫雷游戏窗口
 class_name = "TMain"
@@ -112,7 +114,7 @@ def banner():
     showmap()
     for y in range(blocks_y):
         for x in range(blocks_x):
-            if 1 <= map[y][x] and map[y][x] <= 5:
+            if 1 <= map[y][x] and map[y][x] <= 8:
                 boom_number = map[y][x]
                 # print("数字为")
                 # print(boom_number)
@@ -145,14 +147,15 @@ def banner():
                                         print("插旗")
                                         print(yy)
                                         print(xx)
-                                        win32api.SetCursorPos([left+xx*block_width, top+yy*block_height])
+                                        ##win32api.SetCursorPos([left+xx*block_width, top+yy*block_height])
                                         # print("移动到")
                                         # print(left+xx*block_width)
                                         # print(top+yy*block_height)
-                                        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0)
-                                        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
+                                        ##win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0)
+                                        ##win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
+                                        pyautogui.click(button='right', x=left+xx*block_width, y=top+yy*block_height)
                                         map[yy][xx] = -4
-                                        showmap()
+                                        #showmap()
 
 #点击白块
 def dig():
@@ -160,7 +163,7 @@ def dig():
     iscluck = 0
     for y in range(blocks_y):
         for x in range(blocks_x):
-            if 1 <= map[y][x] and map[y][x] <= 5:
+            if 1 <= map[y][x] and map[y][x] <= 8:
                 boom_number = map[y][x]
                 # print("数字为")
                 # print(boom_number)
@@ -191,12 +194,13 @@ def dig():
                                         print("点开")
                                         print(yy)
                                         print(xx)
-                                        win32api.SetCursorPos([left + xx * block_width, top + yy * block_height])
+                                        ##win32api.SetCursorPos([left + xx * block_width, top + yy * block_height])
                                         # print("移动到")
                                         # print(left + xx * block_width)
                                         # print(top + yy * block_height)
-                                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-                                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+                                        ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+                                        ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+                                        pyautogui.click(x=left+xx*block_width, y=top+yy*block_height)
                                         iscluck = 1
     if iscluck == 0:
         luck()
@@ -204,6 +208,10 @@ def dig():
 #随机点击
 def luck():
     fl = 1
+    if not bool(has_whiteblock()):
+        print("没有白块了，游戏结束")
+        exit(0)
+
     while(fl):
         random_x = random.randint(0, blocks_x - 1)
         random_y = random.randint(0, blocks_y - 1)
@@ -211,9 +219,10 @@ def luck():
             print("乱点一个")
             print(random_y)
             print(random_x)
-            win32api.SetCursorPos([left + random_x * block_width, top + random_y * block_height])
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            ##win32api.SetCursorPos([left + random_x * block_width, top + random_y * block_height])
+            ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+            ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            pyautogui.click(x = left + random_x * block_width, y = top + random_y * block_height)
             fl = 0
 
 # showmap()
@@ -225,23 +234,35 @@ def luck():
 #banner()
 #dig()
 
+def has_whiteblock():
+    ret = 0
+    for y in range(blocks_y):
+        for x in range(blocks_x):
+            if map[y][x] == 0:
+                ret = 1
+                break
+    return ret
+
 def gogo():
-    win32api.SetCursorPos([left, top])
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    ##win32api.SetCursorPos([left, top])
+    ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+    ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    pyautogui.click(x = left, y = top)
     showmap()
     global gameover
     while(1):
         if(gameover == 0):
             banner()
-            banner()
+            #banner()
             dig()
         else:
             gameover = 0
-            win32api.keybd_event(113, 0, 0, 0)
-            win32api.SetCursorPos([left, top])
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            ##win32api.keybd_event(113, 0, 0, 0)
+            pyautogui.press('f2')
+            ##win32api.SetCursorPos([left, top])
+            ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+            ##win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            pyautogui.click(x = left, y = top)
             showmap()
 
 gogo()
