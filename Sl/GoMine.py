@@ -133,7 +133,7 @@ def banner():
                                     block_qi += 1
                 # print("空白数为")
                 # print(block_white)
-                if boom_number == block_white + block_qi:
+                if boom_number == block_white + block_qi and block_white !=0:
                     # print("有确定的,坐标为")
                     # print(y)
                     # print(x)
@@ -151,6 +151,7 @@ def banner():
                                         # print(top+yy*block_height)
                                         win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0)
                                         win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
+                                        map[yy][xx] = -4
                                         showmap()
 
 #点击白块
